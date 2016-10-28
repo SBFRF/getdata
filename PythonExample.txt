@@ -1,0 +1,63 @@
+import netCDF4 as nc # library for handling netCDF files 
+import datetime as DT # general date handling, similar to matlab date vec 
+import numpy as np   # general math library
+
+d1 = DT.datetime(2015,10,01,12,0 )  # set start time of data query here 
+d2 = DT.datetime(2015,10,02,0,0)    # set end time of data querey here
+
+serverLocation = 'http://chlthredds.erdc.dren.mil/thredds/dodsC/frf'  # the www.CHLthredds.erdc.dren.mil/thredds/catalog.htm  website
+dataLoc = '/oceanography/waves/waverider-26m/waverider-26m.ncml'  # the gauge extension for 26 m waverider  - this is what i vary when i want a different gauge
+
+ncfile = nc.Dataset(serverLocation + dataLoc)  # this loads the netCDF file but no data 
+tt = ncfile['time'][:]  # This loads all of the time from the 26m ncml file in epoch time,
+# the [:] distinguish's between the meta data or the actual data, ncfile['time'] will retrieve the time variables meta data (& data)
+# where ncfile['time'][:] accesses just the data
+time = nc.num2date(ncfile['time'][:], ncfile['time'].units)
+# here the .units call access the variable attibute units (in the metadata), the value of this is a string that reads 'seconds since 1970-01-01'
+mask = (time >= d1) & (time < d2)  # returns an array of true/false of length (time)
+idx = np.argwhere(mask)  # return the indicies of True
+#
+# Write data to python Dictionary 
+# untested, but more 'pythonic' way, will look for all variables
+vars = ncfile.variables.keys()  # returns a list of 'variable names' called dictionaries in python
+for varible in vars  # then write each variable (variable - eg. time, wavePeakDirectionPeakFrequency, ...etc) in list (var)
+
+if ncfile[variable].dim == 1:
+  wavespec[variable] = ncfile[variable][idx]
+elif ncfile[variable].dim == 2:
+  wavespec[variable] = ncfile[variable][idx,:]
+elif ncfile[variable].dim == 3:
+  wavespec[variable] = ncfile[variable][idx,:,:]
+  
+  
+  or ...... (wavespec = output)  
+
+# This is the more explicit version of the above (more matlab-esc)
+# This version assumes user knows names of the variables or cares to rename eg waveDirectionPeakFrequency -> waveDp
+wavespec = {'time' : 	   time
+            'name':  	   str(self.ncfile.title),
+            'wavefreqbin': ncfile['waveFrequency'][:],
+            'lat':	   ncfile['lat'][:],
+	    'lon':         ncfile['lon'][:], # 
+            'depth': 	   ncfile['depth'],  # not dimensioned in time
+            'Hs': 	   ncfile['waveHs'][idx],  # dimensioned in time 
+            'peakf' :      ncfile['wavePeakFrequency'][idx]
+            }
+try:
+  wavespec['wavedirbin'] = ncfile['waveDirectionBins'][:]
+  wavespec['dWED'] 	 = ncfile['directionalWaveEnergyDensity'][idx, :, :]
+  wavespec['waveDp']  	 = ncfile['wavePeakDirectionPeakFrequency'][idx]
+  wavespec['waveDm']  	 = ncfile['waveMeanDirection'][idx]
+  wavespec['qcFlagE'] 	 = ncfile['qcFlagE'][idx]
+  wavespec['qcFlagD'] 	 = ncfile['qcFlagD'][idx]
+except IndexError:
+  # this should throw when gauge is non directional
+  #wavespec['peakf'] 	 = ncfile['waveFp'][idx],
+  wavespec['wavedirbin'] = np.arange(0,360,5)
+  wavespec['dWED'] 	 = np.ones([len(self.wavedataindex), len(wavespec['wavefreqbin']), len(wavespec['wavedirbin'])]) # * 1e-8
+  wavespec['waveDp'] 	 = np.zeros(len(self.wavedataindex))
+  wavespec['WED'] 	 = ncfile['waveEnergyDensity'][idx, :]
+  wavespec['depthp'] 	 = ncfile['depthP'][idx]
+  # multiply the freq spectra for all directions
+  wavespec['dWED'] 	= wavespec['dWED'] * wavespec['WED'][:, :, np.newaxis]
+  wavespec['qcFlagE']  	= ncfile['qcFlagE'][idx]
