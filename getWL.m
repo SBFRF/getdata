@@ -1,4 +1,4 @@
-function [WL] = getWL(d1, d2, gnum, svrloc)
+function [WL] = getWL(d1, d2, gnum)
 % getwL retrieves Water Level data from the thredds server (both locs)
 %   
 %   INPUTS 
@@ -20,11 +20,11 @@ elseif svrloc ==2;
 end
 % defining 2nd part
 if gnum==1;
-    urlback='oceanography/waterlevel/11/11.ncml'; % derived wind record  - the end of the url --- using ncml!!!
+    urlback='oceanography/waterlevel/11/11.ncml'; % Water Level 
 elseif gnum==2;
-    urlback='oceanography/waterlevel/11/11.ncml'; % local thredds _ back end for specific gauge ncml
+    urlback='oceanography/waterlevel/11/11.ncml'; 
 else
-    disp 'please visit http://wisdata.erdc.dren.mil/thredds/catalog/frf/catalog.html\n' ...
+    disp 'please visit http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html\n' ...
           'and browse to the gauge of interest and select proper url and add to program'
 end
 url=strcat(svrloc,urlback); % combining first and 2nd part of url string

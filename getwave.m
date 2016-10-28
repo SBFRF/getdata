@@ -1,4 +1,4 @@
-function [wave] = getwave(d1, d2, gnum, svrloc);
+function [wave] = getwave(d1, d2, gnum);
 % %     function takes gauge number and returns data from FDIF server quick version in matlab based on that done in python
 %   This function grabs data from the THREDDS server at the FRF (1) or CHL(2) for waves.
 %   This code is meant to be used as an example, throurgh debugging has not been done
@@ -31,31 +31,30 @@ if d2<d1
     print ' your times are backwards'
     return 
 end
-if svrloc==1;
-    svrloc='http://wisdata.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
-elseif svrloc ==2;
-    svrloc='http://134.164.129.55/thredds/dodsC/FRF/';  % prefix for the FRF thredds server
-end
+
+svrloc='http://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
+
+
 % add other wave gauges here
 if gnum==1;
-    urlback='oceanography/waves/waverider430/waverider430.ncml'; %26 m wavericder
+    urlback='oceanography/waves/waverider-26m/waverider-26m.ncmll'; %26 m wavericder
 elseif gnum==2;
-    urlback='oceanography/waves/waverider630/waverider630.ncml'; % 17 m waverider
+    urlback='oceanography/waves/waverider630/waverider-17m.ncml'; % 17 m waverider
 elseif gnum==3;
-    urlback='/oceanography/waves/awac05/awac05.ncml' % Jennettes' pier
+    urlback='/oceanography/waves/awac05/awac6m.ncml' % Jennettes' pier
 else;
-    disp ' go to http://wisdata.erdc.dren.mil/thredds/catalog/frf/catalog.html and browse to the gauge of interest and select the openDAP link'
+    disp ' go to http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html and browse to the gauge of interest and select the openDAP link'
 end
 url=strcat(svrloc,urlback);
 %% Main program
 time=ncread(url,'time'); % downloading time from server
-%tunit= ncreadatt(url,'time','units'); % reading attributes of variable time
+%tunit= ncreadatt(url,'time','units'); % reading attributes of variable time  # how to read an attribute
 % converting time to matlab datetime
 mtime=time/(3600.0*24)+datenum(1970,1,1);
-sprintf('Wave Record at this location starts: %s  ends: %s',datestr(min(mtime)),datestr(max(mtime)))
+sprintf('Parsing time\nWave Record at this location starts: %s  ends: %s',datestr(min(mtime)),datestr(max(mtime)))
 % finding index that corresponds to dates of interest
 itime=find(d1 < mtime & d2> mtime); % indicies in netCDF record of data of interest
-
+sprintf('Retieving Data')
 % pulling data that is time length dependent (D1,D2)
 if ~isempty(itime)
     wave.time=mtime(itime);  % record of wave time indicies in matlab datetime format
@@ -77,6 +76,4 @@ else
     wave.time=0;
     wave.error= 'There''s no wave data at%s during %s to %s', ncreadatt(url,'/','station_name'), datestr(d1), datestr(d2);
     sprintf('There''s no wave data at%s during %s to %s\nTry another gauge' ,ncreadatt(url,'/','title'), datestr(d1), datestr(d2))
-
-
 end
