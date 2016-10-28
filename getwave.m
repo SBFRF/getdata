@@ -12,8 +12,8 @@ function [wave] = getwave(d1, d2, gnum);
 %       d1=datenum(2015,10,3); example
 %       d2=datenum(2015,10,4); example
 %       svrloc: 
-%         1 = CHL thredds
-%         2 = FRF local THREDDS
+
+
 %       gnum:  gauge number of interset 
 %         1 = waverider 430  - 26 m
 %         2 = waverider 630  - 17 m 
