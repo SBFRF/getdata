@@ -32,7 +32,7 @@ if d2<d1
     return 
 end
 
-svrloc='http://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
+svrloc='https://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
 
 
 % add other wave gauges here
