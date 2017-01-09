@@ -1,6 +1,6 @@
 function [wave] = getwave(d1, d2, gnum);
 % %     function takes gauge number and returns data from FDIF server quick version in matlab based on that done in python
-%   This function grabs data from the THREDDS server at the FRF (1) or CHL(2) for waves.
+%   This function grabs data from the THREDDS server at CHL(2) for waves.
 %   This code is meant to be used as an example, throurgh debugging has not been done
 %   for this set of scripts.  The more complete version exists in python for the coastal model 
 %   Test Bed (CMTB) 
