@@ -1,5 +1,5 @@
 # getdata
-Example codes for FRF Thredds data access for matlab and python, and other 
+Example codes for FRF Thredds data access for matlab and python, and bash.  Other simple examples in other languages are welcome for contribution
 
 #######################
 Matlab:
@@ -9,6 +9,9 @@ getWL, getwave, getwind.  To run these versions an example script has been writt
 
 This script will use the three functions to get the data and return them in mat structures with an associated start
 and end date (d1, d2)  where d1 is inclusive and d2 is exclusive
+
+please note, there are issues regarding matlab and accessing https servers.  This seems to be resolved in 2017a.  please refer to the following link to matlab's bug support for a solution. 
+https://www.mathworks.com/support/bugreports/1072120
 #######################
 Python:
 #######################
