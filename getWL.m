@@ -1,4 +1,4 @@
-function [WL] = getWL(d1, d2, gnum, svrloc)
+function [WL] = getWL(d1, d2, gnum)
 % getwL retrieves Water Level data from the thredds server (both locs)
 %   
 %   INPUTS 
@@ -6,25 +6,21 @@ function [WL] = getWL(d1, d2, gnum, svrloc)
 %       d2-end date in matlab datenum format - see above
 %       gnum is the gauge number (11 only for WL)
 %           1 = gauge 11 (end of pier) - all that is currently available
-%       server loc
-%           1 = FRF thredds 
-%           2 = CHL thredds - not currently carrying WL data
+
+
+
 %
 % % % % % % % % 
 %% Main code 
 % defining data location url (1st part)
-if svrloc == 1;
-    svrloc='http://wisdata.erdc.dren.mil/thredds/dodsC/frf';  % The prefix for the CHL thredds server
-elseif svrloc ==2;
-    svrloc='http://134.164.129.55/thredds/dodsC/FRF/';  % prefix for the FRF thredds server
-end
+svrloc='http://chlthredds.erdc.dren.mil/thredds/dodsC/frf';  % The prefix for the CHL thredds server
 % defining 2nd part
 if gnum==1;
-    urlback='oceanography/waterlevel/11/11.ncml'; % derived wind record  - the end of the url --- using ncml!!!
+    urlback='oceanography/waterlevel/11/11.ncml'; % Water Level 
 elseif gnum==2;
-    urlback='oceanography/waterlevel/11/11.ncml'; % local thredds _ back end for specific gauge ncml
+    urlback='oceanography/waterlevel/11/11.ncml'; 
 else
-    disp 'please visit http://wisdata.erdc.dren.mil/thredds/catalog/frf/catalog.html\n' ...
+    disp 'please visit http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html\n' ...
           'and browse to the gauge of interest and select proper url and add to program'
 end
 url=strcat(svrloc,urlback); % combining first and 2nd part of url string

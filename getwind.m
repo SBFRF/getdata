@@ -1,4 +1,4 @@
-function [ wind ] = getwind( d1,d2,gnum,svrloc )
+function [ wind ] = getwind( d1, d2, gnum)
 % %     function takes gauge number and returns data from FDIF server quick version in matlab based on that done in python
 %   This function grabs data from the THREDDS server at the FRF (1) or CHL(2) for waves.
 %   This code is meant to be used as an example, throurgh debugging has not been done
@@ -13,23 +13,18 @@ function [ wind ] = getwind( d1,d2,gnum,svrloc )
 %       gnum is the gauge number 
 %   	1 = Derived winds (best product)
 %       2 = Gauge 932
-%   svrloc is the location of the data
-%       1 = CHL THREDDS
-%       2 = FRF Thredds Server
+
 
 %% setup 
-if svrloc==1;
-    svrloc='http://wisdata.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
-elseif svrloc ==2;
-    svrloc='http://134.164.129.55/thredds/dodsC/FRF/';  % prefix for the FRF thredds server
-end
+svrloc='http://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
+
 if gnum==1;
-    urlback='meteorology/wind/derived/derived.ncml'; % derived wind record  - the end of the url --- using ncml!!!
+    urlback='meteorology/wind/derived/derived.ncml'; % derived wind record  
 elseif gnum==2;
     urlback='meteorology/wind/D932/D932.ncml'; % local thredds Digital collect 932  _ back end for specific gauge ncml
     print 'guage selcected is 932 Digital collection' 
 else;
-    disp ' go to http://wisdata.erdc.dren.mil/thredds/catalog/frf/catalog.html and browse to the gauge of interest and select the openDAP link'
+    disp ' go to http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html and browse to the gauge of interest and select the openDAP link'
 end
 url=strcat(svrloc,urlback);
 %% Main Program
