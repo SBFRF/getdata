@@ -37,11 +37,9 @@ svrloc='https://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for 
 
 % add other wave gauges here
 if gnum==1;
-    urlback='oceanography/waves/waverider-26m/waverider-26m.ncmll'; %26 m wavericder
+    urlback='oceanography/waves/waverider-26m/waverider-26m.ncml'; %26 m wavericder
 elseif gnum==2;
     urlback='oceanography/waves/waverider630/waverider-17m.ncml'; % 17 m waverider
-elseif gnum==3;
-    urlback='/oceanography/waves/awac05/awac6m.ncml' % Jennettes' pier
 else;
     disp ' go to http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html and browse to the gauge of interest and select the openDAP link'
 end
