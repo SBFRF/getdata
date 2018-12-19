@@ -1,5 +1,12 @@
 # getdata
-Example codes for FRF Thredds data access for matlab and python, and bash.  Other simple examples in other languages are welcome for contribution
+
+Our server is here: https://chlthredds.erdc.dren.mil/thredds  (please note the https)  If you're a matlab user, this can cause problems (see below).  All of our data are stored in netCDF files which work wonderfully with the THREDDS server architecture.  
+The data on the server are laid out pretty intuitively (I hope) so feel free to click around, but a few of the data you may be most interested in are listed below.  The ncml files act as automatic concatenation scripts which allow one access point for all of the data (this is the easiest).  OPeNDAP is likely where you're interested in 'browsing' through the data and metadata. It is also the easiest way to 'drop' data into your workspace (regardless of language). 
+Amongst other things, the matlab issue is explained here with bug reports and fixes 
+
+To compliment this repository, I also have a pretty robust python package here to interact with our data: https://github.com/erdc/getdatatestbed which is actively developed on another forked repository. 
+
+Example codes for FRF Thredds data access for matlab and python, and bash.  Other simple examples in other languages are welcome for contribution.
 
 #######################
 Matlab:
