@@ -7,6 +7,9 @@ function [WL] = getWL(d1, d2, gnum)
 %       gnum is the gauge number (11 only for WL)
 %           1 = gauge 11 (end of pier) - all that is currently available
 
+%altered by Julia Fiedler, Jan 20, 2019
+%jfiedler@ucsd.edu
+%MATLAB v.2018b
 %TODO: Check input on time, if datenum or datetime format and proceed
 %accordingly. Optimal: datetime, probably.
 %
