@@ -1,8 +1,8 @@
-Whatís in a netCDF file:
+# What‚Äôs in a netCDF file:
 To take a quick look at an included netCDF with Matlab:
 ncn = 'FRF_wave_metadata_CS01-SBE26.nc';  % file name, add full path if not in current directory
-ncdisp(ncn);  % this is a way to take a quick look at whatís in a file, will spit out all attributes, dimensions, and variables (but not the data) to the command line
-Global attributes: These are meant to apply to all data contained in the file and often include things like where the data was collected (e.g. lat, lon, depth), what instrument (e.g. make, model, serial number), and really anything else you as a data provider would want a user to know (e.g. summary, ìThis data was collected as part of whatever project, in whatever facility, Ö). These are specified in a global attributes .yml file.  A list of example global yml files is below. 
+ncdisp(ncn);  % this is a way to take a quick look at what‚Äôs in a file, will spit out all attributes, dimensions, and variables (but not the data) to the command line
+Global attributes: These are meant to apply to all data contained in the file and often include things like where the data was collected (e.g. lat, lon, depth), what instrument (e.g. make, model, serial number), and really anything else you as a data provider would want a user to know (e.g. summary, ‚ÄúThis data was collected as part of whatever project, in whatever facility, ‚Ä¶). These are specified in a global attributes .yml file.  A list of example global yml files is below. 
 
 Dimensions: These specify the size of your data variables.  If you just have time series data, you only need 1 dimension, time.  If you have time series profile data (e.g. ADCP) you might have 2 dimensions, time and depth.  Not every data variable has to have every dimension. For example, with ADCP data, the pressure data may just have dimension time while current profiles have dimensions time and depth (or distance from transducer or whatever is appropriate). Our convention (and a very common one) is that time is the only unlimited dimension. Unlimited dimensions can change size (for example if you want to append data).  The size of all other dimensions is fixed at what you originally specify for a given netCDF.  This is all done behind the scenes in the conversion code but is good to be aware of. Note: our files have dimension station_name_length which is weird and is something that is for some reason required for our data portal.  
 
@@ -12,7 +12,7 @@ Note on time: We have been converting time from Matlab datenum (the time in your
 
 
 yml files
-Basically a text file with standard formatting.  Iíve found that most text editors handle them OK but not perfect.  Mixed up formatting can cause the netCDF conversion to crash.
+Basically a text file with standard formatting.  I‚Äôve found that most text editors handle them OK but not perfect.  Mixed up formatting can cause the netCDF conversion to crash.
 Global yml files:
 Specifies the global attributes. This can include whatever you want it to. One of the requirements for our data to get onto our data portal is that we have title as a global attribute.  We can remove this from the code but I have not done so.  This also makes a dimension called station_name_length which is a little weird. If this gets on your nerves we can hack it and get rid of this.  
  A lot of people have spent a lot of time thinking about this.  If you want to see some guidance:
@@ -21,7 +21,7 @@ https://www.unidata.ucar.edu/software/thredds/current/netcdf-java/metadata/DataD
 Example files for reference: 
 FRF_wave_metadata_CS01-SBE26.yml
 FRF_waveMetadata_xp125m.yml
-FRF_current_metadata_CS01-ADOP.yml ñ note, I donít think this one will run if you try.  The data file I included needs to be run through 1 other program before its ready to covert.
+FRF_current_metadata_CS01-ADOP.yml ‚Äì note, I don‚Äôt think this one will run if you try.  The data file I included needs to be run through 1 other program before its ready to covert.
 FRF_waterlevel_metadata_CS01-SBE26.yml
 FRF_waterquality_metadata_CS03-Microcat.yml
 
@@ -29,7 +29,7 @@ Instrument yml files:
 This provides guidance to matlab2netCDF.m informing what variables to include from the data struct, any additional attributes found in the data struct that should be added to the global attributes, what dimensions are included, what to call the data struct variables in the netCDF file (you can use this to convert names), and variable attributes.
 Parts of Instrument yml files:
 _variables: ['time', 'lat', 'lon', 'station_name', 'hs', 'fp', 'specS', 'freq', 'depth', 'depthP', 'qcFlagE']
-This specifies which fields to pull from the data struct and make into variables.  You donít have to include all fields in the data struct in the netCDF.
+This specifies which fields to pull from the data struct and make into variables.  You don‚Äôt have to include all fields in the data struct in the netCDF.
 
 _attributes: ['Station', 'manufacturer', 'model', 'serialNumber']
 This specifies which fields to pull from the data struct and add to the global attributes.  The name of the field will also be the name of the global attribute.
@@ -82,14 +82,14 @@ waves1DCS.yml
 
 mfiles
 do_matlab2netCDF.m
-	Script I threw together to run a couple examples.  Pretty sure I included all the necessary files. You should be able to change ìfldî to specify wherever you put these files and it will run.
+	Script I threw together to run a couple examples.  Pretty sure I included all the necessary files. You should be able to change ‚Äúfld‚Äù to specify wherever you put these files and it will run.
 
 matlab2netCDF.m
 	Function that does the conversion from Matlab struct to netCDF.
 
 ymlGetMeta.m
 	Something I wrote that you may find helpful.  I use this when I want to put something in a yml file where it gets preserved in my netCDF but also want to use it in my initial processing.  For example, an offset, instrument elevation, etc.  I use it like this:
-metget = {ëoffsetí, íelevationí};  % this specifies what I want to pull from the yml file. In the yml file would look like offset: value and elevation: value.
+metget = {‚Äòoffset‚Äô, ‚Äôelevation‚Äô};  % this specifies what I want to pull from the yml file. In the yml file would look like offset: value and elevation: value.
 metgot = ymlGetMeta(ymlFile,metget);
 I can put it into my data struct like this:
 for i = 1:length(metget)
@@ -105,7 +105,7 @@ The remaining .m files are used by matlab2netCDF.m.
 Accessing data from netCDF
 Matlab has built in functions and the help is pretty good.  Here are a few examples to get you started:
 ncn = 'FRF_wave_metadata_CS01-SBE26.nc';    % file name, add full path if not in current directory
-ncdisp(ncn);  % this is a way to take a quick look at whatís in a file, will spit out all attributes, dimensions, and variables (but not the data) to the command line
+ncdisp(ncn);  % this is a way to take a quick look at what‚Äôs in a file, will spit out all attributes, dimensions, and variables (but not the data) to the command line
 t = ncread(ncn, 'time');% get the time vector
 dn = epoch2Matlab(t); % convert to Matlab datenum
 hs = ncread(ncn,'waveHs');  % read some data, in this case variable waveHs
