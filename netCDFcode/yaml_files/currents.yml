@@ -1,0 +1,265 @@
+#CURRENTS TEMPLATE
+#spd and dir are generated in the notebook code
+_variables: ['time','lat','lon','meanP', 'depth', 'numBins','Eave','Nave','E','N','U','I1','I2','I3','binSize','blank','maxBin','spd','dir', 'alt','qcFlag','meanInten','aveTime']
+# _attributes: ['ID', 'nomDepth', 'xducerD', 'file', 'type', 'name', 'magCor', 'filename']
+_attributes: ['title', 'nomDepth', 'xducerD', 'file', 'type', 'magCor', 'filename']
+_dimensions: ['time', 'depth', 'station_name_length']
+
+time:
+    name: 'time'
+    units: 'seconds since 1970-01-01 00:00:00'
+    standard_name: 'time'
+    long_name: 'UTC Sample Time'
+    data_type: 'f8'
+    dim: ['time']
+    calendar: 'gregorian'
+    fill_value: '-999.99'
+
+lat:
+    name: 'lat'
+    units: 'degrees_north'
+    standard_name: 'latitude'
+    long_name: 'Latitude'
+    data_type: 'f8'
+    dim: []
+    fill_value: '-999.99'
+
+lon:
+    name: 'lon'
+    units: 'degrees_east'
+    standard_name: 'longitude'
+    long_name: 'Longitude'
+    data_type: 'f8'
+    dim: []
+    fill_value: '-999.99'
+
+depth:
+    name: 'depth'
+    units: 'm'
+    standard_name: 'depth'
+    long_name: 'Water Depth'
+    data_type: 'f4'
+    description: 'Depth is calculated by: depth = -xducerD + blank + (binSize/2) + (numBins * binSize)'
+    dim: ['depth']
+    fill_value: '-999.99'
+
+spd:
+    name: 'currentSpeed'
+    units: 'm s-1'
+    standard_name: 'sea_water_speed'
+    long_name: 'Vertically Averaged Current Speed'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    short_name: 'Current Speed'
+    coordinates: "time lat lon"
+    note: 'These values were computed using only in  water data, identified as bins 1:maxBin'
+
+dir:
+    name: 'currentDirection'
+    units: 'degree'
+    standard_name: 'sea_water_from_direction'
+    long_name: 'Vertically Averaged Current Direction'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    short_name: 'Current Direction'
+    coordinates: "time lat lon"
+    note: 'These values were computed using only in  water data, identified as bins 1:maxBin'
+
+numBins:
+    name: 'numBins'
+    units: ''
+    # standard_name: 'number_of_profile_bins'
+    long_name: 'Number of Profile Bins'
+    data_type: 'u1'
+    dim: []
+    fill_value: '0'
+    coordinates: "time lat lon"
+
+meanP:
+    name: 'meanPressure'
+    units: 'dbar'
+    standard_name: 'sea_water_pressure'
+    long_name: 'Mean Sea Water Pressure'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    short_name: 'Pressure'
+    coordinates: "time lat lon"
+
+binSize:
+    name: 'binSize'
+    units: 'm'
+    # standard_name: 'bin cell size'
+    long_name: 'Bin Cell Size'
+    data_type: 'f4'
+    dim: []
+    fill_value: '-999.99'
+    coordinates: "time lat lon"
+
+blank:
+    name: 'blank'
+    units: 'm'
+    # standard_name: 'blanking_distance_from_gauge'
+    long_name: 'Blanking Distance from Gauge'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    coordinates: "time lat lon"
+
+maxBin:
+    name: 'maxBin'
+    units: 'index'
+    # standard_name: 'index of last valid bin'
+    long_name: 'Index of Last Valid Bin'
+    data_type: 'u1'
+    dim: ['time']
+    fill_value: '0'
+    coordinates: "time lat lon"
+    note: 'Bins greater than this value are likely out of water as determined by automated surface finding algorithm'
+
+aveTime:
+    name: 'aveTime'
+    units: 'index'
+    # standard_name: 'index of last valid bin'
+    long_name: 'Averaging Time in Seconds'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '0'
+    coordinates: "time lat lon"
+
+meanInten:
+    name: 'meanIntensity'
+    units: 'index'
+    # standard_name: 'index of last valid bin'
+    long_name: 'Minimum Vertically Averaged Intensity (0-255) of Beams'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '0'
+    coordinates: "time lat lon"
+    note: 'These values were computed using only in  water data, identified as bins 1:maxBin'
+
+qcFlag:
+    name: 'qcFlag'
+    units: 'index'
+    # standard_name: 'index of last valid bin'
+    long_name: '1=passed, 2=not checked, 3=questionable, 4=failed'
+    data_type: 'u1'
+    dim: ['time']
+    fill_value: '0'
+    coordinates: "time lat lon"
+
+Eave:
+    name: 'aveU'
+    units: 'm s-1'
+    # standard_name: 'average_eastward_sea_water_velocity'
+    long_name: 'Vertically Averaged Eastward Sea Water Current'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    short_name: 'Eastward Current'
+    coordinates: "time lat lon"
+    note: 'These values were computed using only in  water data, identified as bins 1:maxBin'
+
+Nave:
+    name: 'aveV'
+    units: 'm s-1'
+    # standard_name: 'average_northward_sea_water_velocity'
+    long_name: 'Vertically Averaged Northward Sea Water Current'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    short_name: 'Northward Current'
+    coordinates: "time lat lon"
+    note: 'These values were computed using only in  water data, identified as bins 1:maxBin'
+
+
+E:
+    name: 'u'
+    units: 'm s-1'
+    standard_name: 'eastward_sea_water_velocity'
+    long_name: 'Eastward Current Profile'
+    data_type: 'f4'
+    description: 'Eastward current profile. Direction is towards true-E'
+    dim: ['time','depth']
+    fill_value: '-999.99'
+    short_name: 'Eastward Current Profile'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+
+N:
+    name: 'v'
+    units: 'm s-1'
+    standard_name: 'northward_sea_water_velocity'
+    long_name: 'Northward Current Profile'
+    data_type: 'f4'
+    description: 'Northward current profile. Direction is towards true-N'
+    dim: ['time','depth']
+    fill_value: '-999.99'
+    short_name: 'Northward Current Profile'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+U:
+    name: 'w'
+    units: 'm s-1'
+    standard_name: 'upward_sea_water_velocity'
+    long_name: 'Upward Current Profile'
+    positive: 'upward'
+    data_type: 'f4'
+    dim: ['time','depth']
+    fill_value: '-999.99'
+    short_name: 'Upward Current Profile'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+I1:
+    name: 'I1'
+    units: ''
+    # standard_name: 'beam-1_echo_intensity'
+    long_name: 'Beam-1 Echo Intensity'
+    data_type: 'u1'
+    dim: ['time','depth']
+    valid_min: '0'
+    valid_max: '255'
+    fill_value: '0'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+I2:
+    name: 'I2'
+    units: ''
+    # standard_name: 'beam-2_echo_intensity'
+    long_name: 'Beam-2 Echo Intensity'
+    data_type: 'u1'
+    dim: ['time','depth']
+    valid_min: '0'
+    valid_max: '255'
+    fill_value: '0'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+I3:
+    name: 'I3'
+    units: ''
+    # standard_name: 'beam-3_echo_intensity'
+    long_name: 'Beam-3 Echo Intensity'
+    data_type: 'u1'
+    dim: ['time','depth']
+    valid_min: '0'
+    valid_max: '255'
+    fill_value: '0'
+    coordinates: "time lat lon depth"
+    note: 'These values may include some out of water data. maxBin can be used to identify estimated sea surface and eliminate out of water data'
+
+alt:
+    name: 'altimeter'
+    units: 'm'
+    standard_name: 'height_above_sea_floor'
+    long_name: 'Height Above Sea Floor'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999.99'
+    coordinates: "time lat lon"

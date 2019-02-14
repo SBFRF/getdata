@@ -1,0 +1,119 @@
+# WAVE1D TEMPLATE
+
+_variables: ['time', 'lat', 'lon', 'station_name', 'hs', 'fp', 'specS', 'freq', 'depth', 'depthP', 'qcFlagE']
+_attributes: ['Station', 'manufacturer', 'model', 'serialNumber', 'nomDepth', 'sensor_nomDepth', 'nomDepth_units']
+_dimensions: ['time', 'freq','station_name_length']
+
+time:
+    name: 'time'
+    units: 'seconds since 1970-01-01 00:00:00'
+    standard_name: 'time'
+    long_name: 'UTC Sample Time'
+    data_type: 'f8'
+    dim: ['time']
+    calendar: 'gregorian'
+    fill_value: '-999'
+    
+
+lat:
+    name: 'lat'
+    units: 'degrees_north'
+    standard_name: 'latitude'
+    long_name: 'Latitude'
+    data_type: 'f8'
+    dim: []
+    fill_value: '-999'
+
+lon:
+    name: 'lon'
+    units: 'degrees_east'
+    standard_name: 'longitude'
+    long_name: 'Longitude'
+    data_type: 'f8'
+    dim: []
+    fill_value: '-999'
+
+depth:
+    name: 'depth'
+    units: 'm'
+    standard_name: 'depth'
+    long_name: 'Nominal Water Depth'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999'
+    short_name: 'Depth'
+
+depthP:
+    name: 'depthP'
+    units: 'm'
+    standard_name: 'sensor_depth_below_sea_surface'
+    long_name: 'Sensor Depth Using Pressure'
+    description: 'Sensor depth estimate from gauge mean pressure, barometrically corrected '
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999'
+    short_name: 'Depth'
+
+freq:
+    name: 'waveFrequency'
+    units: 's-1'
+    standard_name: 'wave_frequency'
+    long_name: 'Band Center Frequency'
+    data_type: 'f4'
+    dim: ['waveFrequency']
+    fill_value: '-999'
+    short_name: 'Frequency'
+
+specS:
+    name: 'waveEnergyDensity'
+    units: 'm2 s'
+    standard_name: 'sea_surface_wave_variance_spectral_density'
+    long_name: 'Band Energy Density'
+    data_type: 'f4'
+    dim: ['time','waveFrequency']
+    fill_value: '-999'
+    short_name: '1D Wave Energy'
+
+hs:
+    name: 'waveHs'
+    units: 'm'
+    standard_name: 'sea_surface_wave_significant_height'
+    long_name: 'Significant Wave Height'
+    data_type: 'f4'
+    dim: ['time']
+    fill_value: '-999'
+    short_name: 'Wave Height'
+    coordinates: 'lat lon'
+
+fp:
+    name: 'wavePeakFrequency'
+    units: 's-1'
+    # standard_name: 'sea_surface_wave_frequency_at_variance_spectral_density_maximum'
+    long_name: 'Peak Wave Frequency'
+    data_type: 'f4'
+    coordinates: 'lat lon'
+    dim: ['time']
+    fill_value: '-999'
+    short_name: 'Wave Frequency'
+
+
+qcFlagE:
+    name: 'qcFlagE'
+    units: ''
+    description: 'Realtime QC flags for Spectral Estimates'
+    long_name: 'Quality control flag value for energy estimates'
+    data_type: 'i1'
+    flag_meanings: '1=passed, 2=not set, 3=questionable, 4=failed'
+    coordinates: 'lat lon'
+    dim: ['time']
+    fill_value: '-99'
+    short_name: 'QC_flag_E'
+
+station_name:
+    name: 'station_name'
+    units: ''
+    long_name: station name
+    cf_role: timeseries_id
+    short_name: station_name
+    data_type: 'S1'
+    dim: ['station_name_length']
