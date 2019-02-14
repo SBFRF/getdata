@@ -9,7 +9,10 @@ function matlab2netCDF(data, metadata, template, index, output_file)
 %	output_file - Absolute path to save netCDF file
 %
 % 2015-08-27 RJF Updated to work with nested structures
-
+%%
+% forcing to a character array if came in as string
+metadata = char(metadata);
+template = char(template); 
 try
 % Setup Logger
 if ~(exist(fullfile(pwd,'log'), 'dir') == 7)
@@ -39,7 +42,7 @@ end
 
 try
 	% Read template file
-	nc_template = ReadYaml(template);
+	nc_template = ReadYaml(char(template));  % force to a character string if came in with double quotes
 
 	% Check the timezone (need it in UTC)
     if isfield(data, 'timezone')
