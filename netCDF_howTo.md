@@ -18,7 +18,7 @@ __Note on time:__ We have been converting time from Matlab datenum (the time in 
 
 ## yml files
 
-Basically a text file with standard formatting.  I’ve found that most text editors handle them OK but not perfect.  Mixed up formatting can cause the netCDF conversion to crash.
+Basically a text file with standard formatting.  I’ve found that most text editors handle them OK but not perfect.  Mixed up formatting can cause the netCDF conversion to crash.  This package is reliant on the matlabl Yaml Package (hosted here  https://code.google.com/archive/p/yamlmatlab/downloads).  some times this causes problems, and might need to be re-added to the repo.
 
 __Global yml files:__
 Specifies the global attributes. This can include whatever you want it to. One of the requirements for our data to get onto our data portal is that we have title as a global attribute.  We can remove this from the code but I have not done so.  This also makes a dimension called `station_name_length` that stores an array of characters, that can be annoying at times, but there are ways to handle it
