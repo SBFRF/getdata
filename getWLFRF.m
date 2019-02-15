@@ -1,12 +1,11 @@
-function [WL] = getWL(d1, d2, gnum)
-% getwL retrieves Water Level data from the thredds server (both locs)
-%   
+function [WL] = getWLFRF(d1, d2, gnum)
+% getwL retrieves Water Level data from the thredds server 
 %   INPUTS 
 %       d1-start date in matlab datenum format - ex. datenum(2015,10,2)
 %       d2-end date in matlab datenum format - see above
 %       gnum is the gauge number (11 only for WL)
 %           1 = gauge 11 (end of pier) - all that is currently available
-
+%
 %altered by Julia Fiedler, Jan 20, 2019
 %jfiedler@ucsd.edu
 %MATLAB v.2018b
@@ -39,7 +38,7 @@ d2vec = datevec(d2);
 
 if d1vec(1:2) == d2vec(1:2) %if the year + month are the same, download only that month
     urlyear = num2str(d1vec(1));
-    urlmonth = num2str(d1vec(2));
+    urlmonth = num2str(d1vec(2),'%02.f');
     url = [svrloc urlback '/' urlyear '/FRF-ocean_waterlevel_eopNoaaTide_' urlyear urlmonth '.nc'];
 end
     
@@ -50,11 +49,11 @@ tunit= ncreadatt(url,'time','units'); % reading attributes of variable time
 % converting time to matlab datenum
 mtime=time/(3600.0*24)+datenum(1970,1,1);
 % finding index that corresponds to dates of interest
-sprintf('WL record starts %s and ends %s', datestr(min(mtime)),datestr(max(mtime)))
+sprintf('WL record starts %s and ends %s', datestr(min(mtime)),datestr(max(mtime)));
 itime=find(d1 < mtime & d2> mtime); % indicies in netCDF record of data of interest
 
 % pulling data from server with itime index 
-WL.time = mtime(itime); % record of time in matlab datetime 
+WL.time = mtime(itime);        % record of time in matlab datetime 
 WL.WL = ncread(url,'waterLevel',min(itime),length(itime));  % measured water level
 WL.PredictedWL = ncread(url,'predictedWaterLevel',min(itime),length(itime));  % predicted WL
 WL.name = ncread(url,'station_name'); % station name 
