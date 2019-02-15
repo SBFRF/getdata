@@ -15,7 +15,7 @@ function [WL] = getWLFRF(d1, d2, gnum)
 % % % % % % % % 
 %% Main code 
 % defining data location url (1st part)
-svrloc='https://chlthredds.erdc.dren.mil/thredds/dodsC/frf';  % The prefix for the CHL thredds server
+svrloc='https://chldata.erdc.dren.mil/thredds/dodsC/frf';  % The prefix for the CHL thredds server
 
 % defining 2nd part
 %TODO: Can change which gauge to point to here

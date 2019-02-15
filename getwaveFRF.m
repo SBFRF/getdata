@@ -1,4 +1,4 @@
-function [wave] = getwave(d1, d2, gnum)
+function [wave] = getwaveFRF(d1, d2, gnum)
 % %     function takes gauge number and returns data from FDIF server quick version in matlab based on that done in python
 %   This function grabs data from the THREDDS server at CHL(2) for waves.
 %   This code is meant to be used as an example, throurgh debugging has not been done
@@ -6,21 +6,27 @@ function [wave] = getwave(d1, d2, gnum)
 %   Test Bed (CMTB) 
 %   Written by: Spicer Bak, PhD
 %   email: Spicer.bak@usace.army.mil
+%   edits by Julia fiedler, UCSD
 %   
 %   
 %     INPUTS
 %       d1=datenum(2015,10,3); example
 %       d2=datenum(2015,10,4); example
 %       svrloc: 
-
-
 %       gnum:  gauge number of interset 
 %         1 = waverider 430  - 26 m
 %         2 = waverider 630  - 17 m 
-%         others exist please visit 
-%         http://chlthredds.erdc.dren.mil/thredds/catalog/frf/catalog.html 
-%         or 
-%         http://134.164.129.55/thredds/catalog/FRF/catalog.html
+%         if gnum==1 %26 m wavericder
+%            gnum==2 % 17 m waverider
+%            gnum==3 % pressure sensor at x=200m
+%            gnum==4 % pressure sensor at x=150m
+%            gnum==5 % pressure sensor at x=125m
+%            gnum==6 % pressure sensor at x=100m
+%             gnum==7 % 6 m awac
+%             gnum==8 % 4.5 m awac
+%             gnum==9 % 11 m awac
+%             gnum==10 % 8 m array
+%         http://chldata.erdc.dren.mil/thredds/catalog/frf/catalog.html 
 %         to find other gauges of interest
 % 
 %     RETURNS
@@ -31,10 +37,8 @@ if d2<d1
     print ' your times are backwards'
     return 
 end
-
-svrloc='https://chlthredds.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
-
-
+%% set url's 
+svrloc='https://chldata.erdc.dren.mil/thredds/dodsC/frf/';  % The prefix for the CHL thredds server
 % add other wave gauges here
 % TODO: change these arbitrary numbers to actual string calls
 if gnum==1
@@ -85,14 +89,9 @@ if ~isempty(itime)
     wave.lat=ncread(url,'lat');
     wave.lon=ncread(url,'lon');
     catch
-    end
-    
-    try
     wave.lat=ncread(url,'latitude');
-    wave.lon=ncread(url,'longitude');
-    catch
-    end
-    
+    wave.lon=ncread(url,'longitude');  end
+      
     try
     wave.HsIG = ncread(url,'waveHsIg',min(itime),length(itime));
     catch
@@ -151,3 +150,4 @@ else
     wave.error = sprintf('no wave data at%s during %s to %s', ncreadatt(url,'/','station_name'), datestr(d1), datestr(d2));
     fprintf('There''s no wave data at%s during %s to %s\nTry another gauge' ,ncreadatt(url,'/','title'), datestr(d1), datestr(d2))
 end
+
