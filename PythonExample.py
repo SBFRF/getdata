@@ -5,7 +5,7 @@ import numpy as np   # general math library
 d1 = DT.datetime(2015,10,01,12,0 )  # set start time of data query here 
 d2 = DT.datetime(2015,10,02,0,0)    # set end time of data querey here
 
-serverLocation = 'http://chlthredds.erdc.dren.mil/thredds/dodsC/frf'  # the www.CHLthredds.erdc.dren.mil/thredds/catalog.htm  website
+serverLocation = 'https://chlthredds.erdc.dren.mil/thredds/dodsC/frf'  # the www.CHLthredds.erdc.dren.mil/thredds/catalog.htm  website
 dataLoc = '/oceanography/waves/waverider-26m/waverider-26m.ncml'  # the gauge extension for 26 m waverider  - this is what i vary when i want a different gauge
 
 ncfile = nc.Dataset(serverLocation + dataLoc)  # this loads the netCDF file but no data 
